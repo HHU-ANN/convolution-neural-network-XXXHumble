@@ -10,6 +10,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torchvision
+import torchvision.transforms as transforms
 
 from torch.utils.data import DataLoader
 
@@ -99,12 +100,11 @@ def read_data():
     transforms.ToTensor()])
     dataset_train = torchvision.datasets.CIFAR10(root='../data/exp03', train=True, download=True,
                                                  transform=torchvision.transforms.ToTensor())
-    test_dataset = torchvision.datasets.CIFAR10(root='../data/exp03', train=False, download=False,
+    dataset_val = torchvision.datasets.CIFAR10(root='../data/exp03', train=False, download=False,
                                                transform=torchvision.transforms.ToTensor())
     data_loader_train = DataLoader(dataset=dataset_train, batch_size=50, shuffle=True)
-    test_loader = DataLoader(dataset= test_dataset, batch_size=50, shuffle=False)
-    return dataset_train, test_dataset, data_loader_train, test_loader
-
+    data_loader_val = DataLoader(dataset= dataset_val, batch_size=50, shuffle=False)
+    return dataset_train, dataset_val, data_loader_train, data_loader_val
 
 def main():
     model = NeuralNetwork(ResidualBlock, [2, 2, 2]).to(device)  # 若有参数则传入参数
